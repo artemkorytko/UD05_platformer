@@ -439,18 +439,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Gold 3: -6288512792030432889
-      Gold 2: 7609282858266732271
-      Bronze 1: -4893972260818282012
-      Silver 1: 1942777921290549423
-      Silver 2: 8793606821965667882
-      Bronze 0: -2322180950842035098
-      Bronze 3: 2722280177590742205
-      Gold 0: -4986890610287934012
-      Gold 1: 6143208460787649835
-      Bronze 2: -6323751108524238166
-      Silver 0: 6582046967323461550
-      Silver 3: 3444832735345940322
+      Gold 3: 963735657
+      Gold 2: 1421334302
+      Bronze 1: 275272718
+      Silver 1: 1740890343
+      Silver 2: 1101806226
+      Bronze 0: 1196351818
+      Bronze 3: 1656804303
+      Gold 0: -1209022696
+      Gold 1: 1987204225
+      Bronze 2: -1632987616
+      Silver 0: -569356715
+      Silver 3: -1349807885
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
