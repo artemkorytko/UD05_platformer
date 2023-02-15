@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 7233137074327863886}
   - component: {fileID: 4932033586916864261}
   - component: {fileID: 2812358047906393282}
+  - component: {fileID: 1316451115388136865}
   m_Layer: 0
   m_Name: CoinView
   m_TagString: Untagged
@@ -115,7 +116,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: eaf38f9b6f7e34827bdc3b9d032398cd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -167,3 +168,34 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &1316451115388136865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4779506797599495325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 00000000
+  m_ShapePath:
+  - {x: -0.2720797, y: 0.10778725, z: 0}
+  - {x: -0.14292502, y: 0.24928784, z: 0}
+  - {x: 0.14292455, y: 0.24928784, z: 0}
+  - {x: 0.26130795, y: 0.10812259, z: 0}
+  - {x: 0.2765026, y: -0.11979771, z: 0}
+  - {x: 0.14292455, y: -0.25688505, z: 0}
+  - {x: -0.10336447, y: -0.25654984, z: 0}
+  - {x: -0.2705059, y: -0.14258969, z: 0}
+  m_ShapePathHash: 987178261
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -12084
