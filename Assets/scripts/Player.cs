@@ -1,6 +1,7 @@
 using System;
 using Cinemachine;
 using DefaultNamespace;
+using UnityEditor;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -14,10 +15,16 @@ public class Player : MonoBehaviour
 
     private float _maxVelocityMagnitude;
 
-    private void Start()
+    private PlayerAnimationController _animationController;
+
+    private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        _animationController = GetComponent<PlayerAnimationController>();
+    }
 
+    private void Start()
+    {
         _maxVelocityMagnitude = Mathf.Sqrt(Mathf.Pow(jumpImpulse, 2f) + Mathf.Pow(horizonttalSpeed, 2));
         var camera = FindObjectOfType<CinemachineVirtualCamera>();
         camera.m_Follow = transform;
@@ -46,6 +53,7 @@ public class Player : MonoBehaviour
         var velocity = _rigidbody.velocity;
         velocity.x = horizonttalSpeed * axis;
         _rigidbody.velocity = velocity;
+        _animationController.SetSpeed(velocity.x == 0 ? 0 : (int)Mathf.Sign(velocity.x));
     }
     
     private void VerticalMovement()
@@ -54,6 +62,7 @@ public class Player : MonoBehaviour
         {
             _isCanJump = false;
             _rigidbody.AddForce(jumpImpulse * Vector2.up, ForceMode2D.Impulse);
+            _animationController.SetJump();
         }
     }
     
@@ -86,7 +95,35 @@ public class Player : MonoBehaviour
         {
             _isCanJump = true;
         }
-            
-            
+
+        if (col.gameObject.GetComponent<DangerousObject>())
+        {
+            Death();
+        }
+    }
+
+    private void Death()
+    {
+        _animationController.SetSpeed(0);
+        _isActive = false;
+        _rigidbody.simulated = false;
+        GameManager.Instance.OnPlayerDeath();
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if(!_isActive)
+            return;
+
+        if (col.GetComponent<Coin>())
+        {
+            col.gameObject.SetActive(false);
+            GameManager.Instance.OnCoinCollect();
+        }
+
+        if (col.GetComponent<Finish>())
+        {
+            GameManager.Instance.OnFinish();
+        }
     }
 }

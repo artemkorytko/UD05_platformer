@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1983883299525389241}
   - component: {fileID: 1983883299525389246}
-  - component: {fileID: 1983883299525389247}
   - component: {fileID: 1983883299525389244}
   m_Layer: 0
   m_Name: CoinView
@@ -86,22 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &1983883299525389247
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1983883299525389245}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!95 &1983883299525389244
 Animator:
   serializedVersion: 4
@@ -132,6 +115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1983883300282636311}
   - component: {fileID: 2859798385261232352}
+  - component: {fileID: 1863816422377956939}
   m_Layer: 0
   m_Name: Coin
   m_TagString: Untagged
@@ -167,3 +151,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f7700ac996d05f40bb603d72b035af8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!58 &1863816422377956939
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1983883300282636308}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.3
