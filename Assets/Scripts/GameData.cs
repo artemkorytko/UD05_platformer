@@ -7,6 +7,5 @@ namespace DefaultNamespace
     {
         public uint Coins;
         public uint Level;
-        private int test;
     }
 }
