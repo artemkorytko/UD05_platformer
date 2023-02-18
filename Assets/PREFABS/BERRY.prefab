@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 7685889098642787095}
   - component: {fileID: 2633088662117730531}
   - component: {fileID: 6608169291652868263}
+  - component: {fileID: 5433333656021902184}
+  - component: {fileID: 4719324172273653434}
   m_Layer: 0
   m_Name: BERRY
   m_TagString: Untagged
@@ -105,3 +107,31 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5433333656021902184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3742069819725075454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790dc05df11441968fec0d70a94808da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!70 &4719324172273653434
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3742069819725075454}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 0.6875, y: 1}
+  m_Direction: 0
