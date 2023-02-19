@@ -22,11 +22,15 @@ public class Enemy : MonoBehaviour
 
         // место, куда будем инстантиэйтить украденное
     [SerializeField] private Transform _StealPoint;
-    private GameData _gameData;
+    private GameData _EnemyGameData;
     private Dictionary <int, GameObject> _stealDick;
     
     // ссылка на текущую точку, к которой мы идём
     private Transform _target;
+
+    // считает сколько стырил
+    private int stealCount = 0;
+    [SerializeField] private const float _stealOffset = 1;
     
     // ссылка на аниматор
     private EnemyAnimationController _animationController;
@@ -45,10 +49,12 @@ public class Enemy : MonoBehaviour
         _target = Random.Range(0, 2) == 0 ? pointOne : pointTwo;
         
         _StealPoint = GetComponentInChildren<StealPoint>().transform;
+        
+        _stealDick = new Dictionary<int, GameObject>();
     }
 
     // ходит БЕЗ rigidboby поэтому в апдейте
-    private void Update()
+    private void FixedUpdate()
     {
         // направление куда мы идем: от позиции цели отнять нашу позицию, получаем вектор куда идти
         // When normalized, a vector keeps the same direction but its length is 1.0.
@@ -92,7 +98,6 @@ public class Enemy : MonoBehaviour
         var localScale = transform.localScale;
         
         // из скейла по X делаем -1 или 1
-        // 
         // если полученный инт из текущего транслейта не равен переданному инту вычесленного направления куда идем¯\_(ツ)_/¯ 
         if ((int) Mathf.Sign(localScale.x) != sign)
         {
@@ -102,30 +107,68 @@ public class Enemy : MonoBehaviour
         transform.localScale = localScale; // присваиваем его нашему трансорму
     }
 
-
+    //--------------------------------------------------------------------------------------------------
     private void StealOneThing()
     {
-        _gameData = GameManager.Instance._gameData;
-        
+        _EnemyGameData = GameManager.Instance._gameData;
+
         //---- собирает словарь вещей, которые заяц уже насобирал и рандомно тырит одну
         int ii = 0;
-        _stealDick = new Dictionary <int, GameObject>();
-        if (_gameData.Coins >= 1)  { _stealDick.Add(ii, coin); ii++; GameManager.Instance._gameData.Coins--;}
-        if (_gameData.Berries >= 1) { _stealDick.Add(ii, berry); ii++; GameManager.Instance._gameData.Berries--; }
-        if (_gameData.GoldenPoo >= 1)  { _stealDick.Add(ii, goldenPoo); ii++; GameManager.Instance._gameData.GoldenPoo--;}
-        if (_gameData.Carrots >= 1)  { _stealDick.Add(ii, carrot); ii++; GameManager.Instance._gameData.Carrots--;}
-        if (_gameData.Gems >= 1)  { _stealDick.Add(ii, gem); GameManager.Instance._gameData.Gems--;}
+        
+        if (_EnemyGameData.Coins >= 1)
+        {
+            _stealDick.Add(ii, coin);
+            ii++;
+            GameManager.Instance._gameData.Coins--;
+        }
 
-        int rndsteal = Random.Range(0, _stealDick.Count);
-        GameObject whatToSteal = Instantiate(_stealDick[rndsteal], _StealPoint.transform);
-        // whatToSteal.GetComponentInChildren<Collider>().enabled = false;
-    }
+        if (_EnemyGameData.Berries >= 1)
+        {
+            _stealDick.Add(ii, berry);
+            ii++;
+            GameManager.Instance._gameData.Berries--;
+        }
 
+        if (_EnemyGameData.GoldenPoo >= 1)
+        {
+            _stealDick.Add(ii, goldenPoo);
+            ii++;
+            GameManager.Instance._gameData.GoldenPoo--;
+        }
 
+        if (_EnemyGameData.Carrots >= 1)
+        {
+            _stealDick.Add(ii, carrot);
+            ii++;
+            GameManager.Instance._gameData.Carrots--;
+        }
 
+        if (_EnemyGameData.Gems >= 1)
+        {
+            _stealDick.Add(ii, gem);
+            GameManager.Instance._gameData.Gems--;
+        }
+        //---------------------------------------
+        
+        
 
+        
+        //------- рандомно тырит вещь пока не заберет 6 штук
+        if (_stealDick.Count != 0 && stealCount < 6) 
+        {
+            int rndsteal = Random.Range(0, _stealDick.Count);
+            GameObject whatToSteal = Instantiate(_stealDick[rndsteal], _StealPoint.transform);
+            
+            float heightToPutThis = _stealOffset * stealCount;
+            whatToSteal.transform.Translate(new Vector3(0,heightToPutThis, 0));
 
-
+            whatToSteal.GetComponentInChildren<Collider2D>().enabled = false;
+            
+            stealCount++;
+        }
+        
+        _stealDick.Clear();
+    } // end of steal one thing 
 
 
     private void OnDestroy()

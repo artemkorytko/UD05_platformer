@@ -16,6 +16,8 @@ namespace DefaultNamespace
         //ссылка на текущий уровень
         private Level _currentLevel;
 
+        public event Action <uint> LevelChanged;
+
         // логика создания, дестрой предыдущего и создание нового уровня
         public void CreateLevel(uint index) //приходит к нам уровень uint - только положительные
         {
@@ -27,9 +29,15 @@ namespace DefaultNamespace
 
             // высчитываем индекс - от 0 до сколько в массиве
             index %= (uint)levelsArr.Length; // тоже не может быть отрицательным
+            // ??????????????????????????????????????????????
+            // я математический дибил, как сдлать разные уровни?, у меня всегда 1й
+            // ??????????????????????????????????????????????
+ 
+            
             _currentLevel = Instantiate(levelsArr[index], transform);
-            // transform - парентом будет HOLDER
-
+            //   transform - парентом будет HOLDER
+            
+            LevelChanged?.Invoke(index); // переписывает текст в менюхе
         }
     }
 }

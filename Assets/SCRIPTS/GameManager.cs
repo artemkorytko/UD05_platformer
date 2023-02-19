@@ -17,6 +17,7 @@ namespace DefaultNamespace
         public event Action<uint> OnBerryValueChanged;
         public event Action<uint> OnGemValueChanged;
         public event Action<uint> OnGoldenPooValueChanged;
+        
         public event Action OnFinishEvent;
         public event Action OnFailEvent;
         
@@ -48,8 +49,14 @@ namespace DefaultNamespace
         public void StartGame()
         {
             UiController.Instance.SetPanel(Panel.Game);
-            _levelManager.CreateLevel(_gameData.Level);
+            _levelManager.CreateLevel(_gameData.Level); 
+            
+            //--------- обновляет менюху с собранным -----------
             OnCoinValueChanged?.Invoke(_gameData.Coins);
+            OnCarrotValueChanged?.Invoke(_gameData.Carrots);
+            OnBerryValueChanged?.Invoke(_gameData.Berries);
+            OnGemValueChanged?.Invoke(_gameData.Gems);
+            OnGoldenPooValueChanged?.Invoke(_gameData.GoldenPoo);
         }
 
         //--------------- СОБИРАЛКИ шесть одинаковых зато наглядно:/ ---------------------------------
@@ -89,13 +96,16 @@ namespace DefaultNamespace
         public void OnFinish()
         {
             UiController.Instance.SetPanel(Panel.Win);
-            OnFinishEvent?.Invoke();
+            OnFinishEvent?.Invoke(); 
+            // ---------- дорисовать анимацию радости --------!!!
+            
+            
         }
 
         public void OnEnemySteal() // было OnPlayerDeath()
         {
             // UiController.Instance.SetPanel(Panel.Fail);
-            OnFailEvent?.Invoke();
+            OnFailEvent?.Invoke(); 
         }
 
         private void OnApplicationQuit()

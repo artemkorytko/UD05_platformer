@@ -155,7 +155,7 @@ namespace DefaultNamespace
 
             if (col.gameObject.GetComponent<DangerousObject>())
             {
-                Death();
+                Stealing();
             }
         }
 
@@ -209,6 +209,12 @@ namespace DefaultNamespace
                 GetClean();
             }
             
+            //--------- враг ---------------------------
+            if (col.GetComponent<DangerousObject>())
+            {
+                Stealing();
+            }
+            
             //--------- столкновение с флажком / домиком 
             if (col.GetComponent<Finish>())
             {
@@ -220,25 +226,30 @@ namespace DefaultNamespace
         //------------ после столкновения с какахой пачакается, водой - моется ---------
         private void GetDirty()
         {
-            _isDirty = true;
-            Debug.Log(" заяц грязный");
-            // НАРИСОВАТЬ И ЗАМЕНИТЬ
+            if (_isDirty == false)
+            {
+                _isDirty = true;
+                Debug.Log(" заяц грязный");
+                // НАРИСОВАТЬ И ЗАМЕНИТЬ
+            }
         }
 
         private void GetClean()
         {
-            Debug.Log(" заяц помылся");
-            _isDirty = false;
-            // НАРПИСОВАТЬ И ЗАМЕНИТЬ
+            if (_isDirty == true)
+            {
+                Debug.Log(" заяц помылся");
+                _isDirty = false;
+            }
         }
 
         
         
-        private void Death()
+        private void Stealing()
         {
-            _animatorcontroller.SetSpeed(0);
-            _isActive = false;
-            _rigidbody.simulated = false;
+            // _animatorcontroller.SetSpeed(0);
+            // _isActive = false;
+            // _rigidbody.simulated = false;
             GameManager.Instance.OnEnemySteal();
         }
 
