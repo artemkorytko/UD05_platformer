@@ -16,7 +16,10 @@ namespace DefaultNamespace
             }
 
             index %= (uint) levels.Length;
+            
             _currentLevel = Instantiate(levels[index], transform);
+           //_currentLevel.GenerateLevel();
         }
+        
     }
 }

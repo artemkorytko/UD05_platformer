@@ -2,7 +2,7 @@
 
 namespace DefaultNamespace
 {
-    public class Enemy : MonoBehaviour
+    public class Spike : MonoBehaviour
     {
         
     }

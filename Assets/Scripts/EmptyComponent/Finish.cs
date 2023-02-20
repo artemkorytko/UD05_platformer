@@ -2,7 +2,7 @@
 
 namespace DefaultNamespace
 {
-    public class Level : MonoBehaviour
+    public class Finish : MonoBehaviour
     {
         
     }
