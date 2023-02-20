@@ -60,34 +60,39 @@ namespace DefaultNamespace
         }
 
         //--------------- СОБИРАЛКИ шесть одинаковых зато наглядно:/ ---------------------------------
-        //---- инвоки идут прямо в текстовые поля
-        public void OnCoinCollect()
+        //---- инвоки идут прямо в отдельные текстовые поля
+        public void OnCoinCollect(bool stolen = false) // по умолчанию не украденное
         {
-            _gameData.Coins++;
+            if (!stolen)
+            {_gameData.Coins++;} //если вещь украдена из enemy приходит bool true - то инвокает обновление UI без ++
             OnCoinValueChanged?.Invoke(_gameData.Coins);
         }
 
-        public void OnCarrotCollect()
+        public void OnCarrotCollect(bool stolen = false)
         {
-            _gameData.Carrots++;
+            if (!stolen)
+            {_gameData.Carrots++;}
             OnCarrotValueChanged?.Invoke(_gameData.Carrots);
         }
         
-        public void OnBerryCollect()
+        public void OnBerryCollect(bool stolen = false)
         {
-            _gameData.Berries++;
+            if (!stolen)
+            {_gameData.Berries++;}
             OnBerryValueChanged?.Invoke(_gameData.Berries);
         }
         
-        public void OnGemCollect()
+        public void OnGemCollect(bool stolen = false)
         {
-            _gameData.Gems++;
+            if (!stolen)
+            {_gameData.Gems++;}
             OnGemValueChanged?.Invoke(_gameData.Gems);
         }
         
-        public void OnGoldenPooCollect()
+        public void OnGoldenPooCollect(bool stolen = false)
         {
-            _gameData.GoldenPoo++;
+            if (!stolen)
+            {_gameData.GoldenPoo++;}
             OnGoldenPooValueChanged?.Invoke(_gameData.GoldenPoo);
         }
         
@@ -96,6 +101,8 @@ namespace DefaultNamespace
         public void OnFinish()
         {
             UiController.Instance.SetPanel(Panel.Win);
+            _gameData.Level++;
+            
             OnFinishEvent?.Invoke(); 
             // ---------- дорисовать анимацию радости --------!!!
             

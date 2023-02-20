@@ -120,6 +120,7 @@ public class Enemy : MonoBehaviour
             _stealDick.Add(ii, coin);
             ii++;
             GameManager.Instance._gameData.Coins--;
+            GameManager.Instance.OnCoinCollect(true); // проверка на стыренность
         }
 
         if (_EnemyGameData.Berries >= 1)
@@ -127,6 +128,7 @@ public class Enemy : MonoBehaviour
             _stealDick.Add(ii, berry);
             ii++;
             GameManager.Instance._gameData.Berries--;
+            GameManager.Instance.OnBerryCollect(true);
         }
 
         if (_EnemyGameData.GoldenPoo >= 1)
@@ -134,6 +136,7 @@ public class Enemy : MonoBehaviour
             _stealDick.Add(ii, goldenPoo);
             ii++;
             GameManager.Instance._gameData.GoldenPoo--;
+            GameManager.Instance.OnGoldenPooCollect(true);
         }
 
         if (_EnemyGameData.Carrots >= 1)
@@ -141,12 +144,14 @@ public class Enemy : MonoBehaviour
             _stealDick.Add(ii, carrot);
             ii++;
             GameManager.Instance._gameData.Carrots--;
+            GameManager.Instance.OnCarrotCollect(true);
         }
 
         if (_EnemyGameData.Gems >= 1)
         {
             _stealDick.Add(ii, gem);
             GameManager.Instance._gameData.Gems--;
+            GameManager.Instance.OnGemCollect(true);
         }
         //---------------------------------------
         

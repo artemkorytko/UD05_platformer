@@ -25,7 +25,7 @@ namespace DefaultNamespace.UI
 
         private void OnCoinValue(uint index) // получает из LevelManager, тот в свою очередь из GM
         {
-            _text.text = $"LEVEL {index}" ;
+            _text.text = $"LEVEL {index.ToString()}" ;
         }
     }
 }
