@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -29,25 +30,35 @@ namespace DefaultNamespace.UI
             _healthBar = GetComponentInChildren<HealthBar>();
         }
 
-        public void SetCountHealth(int countHealth)
+        private void Start()
         {
-            for (int i = 0; i < countHealth; i++)
+            for (int i = 0; i < 10; i++)
             {
               var heard = Instantiate(prefabHeart.gameObject, _healthBar.transform);
+              heard.SetActive(false);
               _listHeards.Add(heard);
             }
+        }
+
+        private void OnDisable()
+        {
+            foreach (var heard in _listHeards)
+                heard?.SetActive(false);
         }
 
         public void RemoveHeard()
         {
             var heard =_listHeards.FirstOrDefault(item => item.activeSelf);
-            heard.SetActive(false);
+            heard?.SetActive(false);
         }
 
-        public void AddHeard()
+        public void AddHeard(int count)
         {
-            var heard = _listHeards.FirstOrDefault(item => item.activeSelf == false);
-            heard.SetActive(true);
+            for (int i = 0; i < count; i++)
+            {
+                var heard = _listHeards.FirstOrDefault(item => item.activeSelf == false);
+                heard?.SetActive(true);
+            }
         }
 
     }

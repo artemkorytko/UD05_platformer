@@ -1,4 +1,6 @@
-﻿using Cinemachine;
+﻿using System;
+using Cinemachine;
+using DefaultNamespace.ConfigsSO;
 using DefaultNamespace.UI;
 using UnityEngine;
 
@@ -7,9 +9,7 @@ namespace DefaultNamespace
     [RequireComponent(typeof(PlayerAnimatorController), typeof(Rigidbody2D))]
     public class Player : MonoBehaviour
     {
-        [SerializeField] private float horizontalSpeed = 5f;
-        [SerializeField] private float jumpImpulse = 5f;
-        [SerializeField] private int health = 5;
+        [SerializeField] private PlayerConfig config;
 
         private Rigidbody2D _rigidbody;
         private PlayerAnimatorController _animator;
@@ -29,15 +29,18 @@ namespace DefaultNamespace
 
         private void Start()
         {
-            _maxVelocityMagnitude = Mathf.Sqrt(Mathf.Pow(jumpImpulse, 2f) + Mathf.Pow(horizontalSpeed, 2));
+            _maxVelocityMagnitude = Mathf.Sqrt(Mathf.Pow(config.JumpImpulse, 2f) + Mathf.Pow(config.HorizontalSpeed, 2));
             
             var camera = FindObjectOfType<CinemachineVirtualCamera>();
             camera.m_Follow = transform;
             camera.m_LookAt = transform;
             
-            _currentHealth = health;
-            GamePanel.Instance.SetCountHealth(_currentHealth);
+            GameManager.Instance.OnRestartLevel += OnRestart;
+            
+            _currentHealth = config.Health;
+            GamePanel.Instance.AddHeard(_currentHealth);
         }
+
 
         private void OnCollisionEnter2D(Collision2D other)
         {
@@ -47,7 +50,7 @@ namespace DefaultNamespace
             if (other.gameObject.GetComponent<Platform>())
                 _isCanJump = true;
             
-            if (other.gameObject.GetComponent<DangerousObject>()) 
+            if (other.gameObject.GetComponent<DangerousObject>() || other.gameObject.GetComponent<Spike>()) 
                 TakeDamage();
         }
 
@@ -70,6 +73,11 @@ namespace DefaultNamespace
 
             Movement();
             UpdateSide();
+        }
+
+        private void OnDestroy()
+        {
+            GameManager.Instance.OnRestartLevel -= OnRestart;
         }
 
         private void UpdateSide()
@@ -109,7 +117,7 @@ namespace DefaultNamespace
             {
                 _isCanJump = false;
                 _animator.SetJump();
-                _rigidbody.AddForce(jumpImpulse * Vector2.up, ForceMode2D.Impulse);
+                _rigidbody.AddForce(config.JumpImpulse * Vector2.up, ForceMode2D.Impulse);
             }
         }
 
@@ -117,7 +125,7 @@ namespace DefaultNamespace
         {
            var axis =  SimpleInput.GetAxis("Horizontal");
            var velocity = _rigidbody.velocity;
-           velocity.x = horizontalSpeed * axis;
+           velocity.x = config.HorizontalSpeed * axis;
            _rigidbody.velocity = velocity;
            _animator.SetSpeed(velocity.x == 0 ? 0 : (int)Mathf.Sign(velocity.x));
         }
@@ -129,10 +137,20 @@ namespace DefaultNamespace
             if (--_currentHealth <= 0)
             {
                 _isActive = false;
-                GameManager.Instance.OnPlayerDeath();
-                _rigidbody.simulated = false;
+                gameObject.SetActive(false);
                 _animator.SetSpeed(0);
+                
+                GameManager.Instance.OnPlayerDeath();
             }
         }
+        private void OnRestart()
+        {
+            _isActive = true;
+            gameObject.SetActive(true);
+            
+            _currentHealth = config.Health;
+            GamePanel.Instance.AddHeard(_currentHealth);
+        }
+        
     }
 }

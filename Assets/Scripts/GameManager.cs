@@ -12,6 +12,8 @@ namespace DefaultNamespace
         private ISaveSystem _saveSystem;
         private GameData _gameData;
 
+        public uint CountCoins => _gameData.Coins;
+        public event Action OnRestartLevel; 
         public event Action<uint> OnCoinValueChanged;
         public event Action OnFinishEvent;
         public event Action OnFailEvent;
@@ -38,9 +40,21 @@ namespace DefaultNamespace
             UIController.Instance.SetPanels(Panel.Menu);
         }
 
+        private void OnDestroy()
+        {
+            _saveSystem.SaveData(_gameData);
+        }
+
         public void StartGame()
         {
+            OnCoinValueChanged?.Invoke(_gameData.Coins);
             _levelManager.CreateLevel(_gameData.Level);
+            UIController.Instance.SetPanels(Panel.Game);
+        }
+
+        public void RestartLevel()
+        {
+            OnRestartLevel?.Invoke();
             UIController.Instance.SetPanels(Panel.Game);
         }
 
@@ -60,6 +74,14 @@ namespace DefaultNamespace
         {
             UIController.Instance.SetPanels(Panel.Fail);
             OnFailEvent?.Invoke();
+        }
+
+        public void OnResurrectionPlayer()
+        {
+            _gameData.Coins -= 10;
+            OnCoinValueChanged?.Invoke(_gameData.Coins);
+            OnRestartLevel?.Invoke();
+            UIController.Instance.SetPanels(Panel.Game);
         }
 
     }

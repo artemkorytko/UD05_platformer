@@ -170,6 +170,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8b2d98e362f473fbe87a98cefda1d8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalSpeed: 5
-  jumpImpulse: 5
-  health: 5
+  config: {fileID: 11400000, guid: 63ee668b01d484642bc834f165b0c5cb, type: 2}

@@ -2,7 +2,7 @@
 {
     public class WinPanel : BasePanel
     {
-        protected override void ClickButton()
+        protected override void OnClickRestarButton()
         {
             GameManager.Instance.StartGame();
         }

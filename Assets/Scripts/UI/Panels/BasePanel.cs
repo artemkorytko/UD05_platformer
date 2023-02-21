@@ -7,21 +7,21 @@ namespace DefaultNamespace.UI
     {
         private Button _button;
 
-        private void Awake()
+        protected void Awake()
         {
             _button = GetComponentInChildren<Button>();
         }
 
-        private void Start()
+        protected void Start()
         {
-            _button.onClick.AddListener(ClickButton);
+            _button.onClick.AddListener(OnClickRestarButton);
         }
 
-        private void OnDestroy()
+        protected void OnDestroy()
         {
-            _button.onClick.RemoveListener(ClickButton);
+            _button.onClick.RemoveListener(OnClickRestarButton);
         }
 
-        protected abstract void ClickButton();
+        protected abstract void OnClickRestarButton();
     }
 }

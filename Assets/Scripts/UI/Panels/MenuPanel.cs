@@ -1,8 +1,8 @@
 ﻿namespace DefaultNamespace.UI
 {
-    public class FailPanel : BasePanel
+    public class MenuPanel : BasePanel
     {
-        protected override void ClickButton()
+        protected override void OnClickRestarButton()
         {
             GameManager.Instance.StartGame();
         }
