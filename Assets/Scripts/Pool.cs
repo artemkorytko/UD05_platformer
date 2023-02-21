@@ -1,32 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace DefaultNamespace
 {
     public class Pool : MonoBehaviour
-    {
-        public static Pool Instance { get; private set; }
+    { 
+        [SerializeField] protected Transform сontainer;
+        
+        private List<GameObject> _pool = new List<GameObject>();
 
-        private void Awake()
+        protected void GeneratePool(GameObject prefab, int count)
         {
-            if (Instance == null)
-                Instance = this;
-            else
-                Destroy(gameObject);
-        }
-
-        public List<GameObject> GenerateObjects(GameObject prefab, int count)
-        {
-            List<GameObject> objects = new List<GameObject>(10);
             for (int i = 0; i < count; i++)
             {
-                var item = Instantiate(prefab, transform);
+                var item = Instantiate(prefab, сontainer);
                 item.SetActive(false);
-                objects.Add(item);
+                _pool.Add(item);
             }
+        }
 
-            return objects;
+        protected bool TryGetItem(out GameObject item)
+        {
+            item = _pool.FirstOrDefault(i => i.activeSelf == false);
+            return item != null;
+        }
+
+        protected void SetItem(GameObject item, Vector3 point)
+        {
+            item.SetActive(true);
+            item.transform.position = point;
         }
     }
 }

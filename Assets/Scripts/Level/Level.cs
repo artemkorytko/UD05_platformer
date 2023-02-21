@@ -6,26 +6,21 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public class Level : MonoBehaviour
+    public class Level : Pool
     {
         [SerializeField] private LevelConfig config;
 
         private SpawnPointPlayer spawnPointPlayer;
         private SpawnPointEnemy[] _spawnPointsEnemy;
         private SpawnPointCoin[] _spawnPointsCoin;
-        
-        
-        private List<GameObject> _coins = new List<GameObject>(10);
-        private List<GameObject> _enemys = new List<GameObject>(10);
 
         private void Awake()
         {
             spawnPointPlayer = GetComponentInChildren<SpawnPointPlayer>();
             _spawnPointsEnemy = GetComponentsInChildren<SpawnPointEnemy>();
             _spawnPointsCoin = GetComponentsInChildren<SpawnPointCoin>();
-
         }
-
+        
         public void StartLevel()
         {
             GeneratePlayer();
@@ -50,11 +45,12 @@ namespace DefaultNamespace
 
         private void GenerateCoins()
         {
-            _coins = Pool.Instance.GenerateObjects(config.CoinPrefab.gameObject, _spawnPointsCoin.Length);
-            for (int i = 0; i < _coins.Count; i++)
+            GeneratePool(config.CoinPrefab.gameObject, _spawnPointsCoin.Length);
+            
+            for (int i = 0; i < _spawnPointsCoin.Length; i++)
             {
-                _coins[i].transform.position = _spawnPointsCoin[i].transform.position;
-                _coins[i].SetActive(true);
+                if(TryGetItem(out GameObject coin))
+                    SetItem(coin, _spawnPointsCoin[i].transform.position);
             }
         }
     }

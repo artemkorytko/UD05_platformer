@@ -2,6 +2,7 @@
 using Cinemachine;
 using DefaultNamespace.ConfigsSO;
 using DefaultNamespace.UI;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace DefaultNamespace
@@ -10,6 +11,9 @@ namespace DefaultNamespace
     public class Player : MonoBehaviour
     {
         [SerializeField] private PlayerConfig config;
+        [SerializeField] private ContactFilter2D filter;
+        
+        private RaycastHit2D[] _results = new RaycastHit2D[1];
 
         private Rigidbody2D _rigidbody;
         private PlayerAnimatorController _animator;
@@ -46,8 +50,11 @@ namespace DefaultNamespace
         {
             if(!_isActive)
                 return;
+            
+            if(other.gameObject.TryGetComponent(out RipEnemy enemy))
+                enemy.Rip();
 
-            if (other.gameObject.GetComponent<Platform>())
+            if (other.gameObject.GetComponent<Platform>() || other.gameObject.GetComponent<RipEnemy>())
                 _isCanJump = true;
             
             if (other.gameObject.GetComponent<DangerousObject>() || other.gameObject.GetComponent<Spike>()) 
@@ -70,11 +77,17 @@ namespace DefaultNamespace
         {
             if(!_isActive)
                 return;
+            
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, -transform.up, 1f, 6);
+            Debug.DrawRay(transform.position, -transform.up * 1f, Color.red);
+            if(hit.collider != null)
+                Debug.Log(hit.collider.name);
+            
 
             Movement();
             UpdateSide();
         }
-
+        
         private void OnDestroy()
         {
             GameManager.Instance.OnRestartLevel -= OnRestart;
@@ -96,6 +109,7 @@ namespace DefaultNamespace
             }
 
         }
+        
 
         private void Movement()
         {
@@ -113,6 +127,7 @@ namespace DefaultNamespace
 
         private void VerticalMovement()
         {
+            
             if (_isCanJump && SimpleInput.GetAxis("Vertical") > 0)
             {
                 _isCanJump = false;
