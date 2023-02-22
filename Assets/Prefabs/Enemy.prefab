@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 8737437489974376796}
   - component: {fileID: 5308142813371251171}
   - component: {fileID: 6654951105968869674}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RipCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

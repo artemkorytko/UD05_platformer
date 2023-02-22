@@ -9,8 +9,8 @@ namespace DefaultNamespace
     { 
         [SerializeField] protected Transform сontainer;
         
-        private List<GameObject> _poolCoin = new List<GameObject>(10);
-        private List<GameObject> _poolEnemy = new List<GameObject>(10);
+        private List<GameObject> _pool = new List<GameObject>(10);
+       // private List<GameObject> _poolEnemy = new List<GameObject>(10);
 
         protected void GeneratePool(GameObject prefab, int count)
         {
@@ -18,13 +18,13 @@ namespace DefaultNamespace
             {
                 var item = Instantiate(prefab, сontainer);
                 item.SetActive(false);
-                _poolCoin.Add(item);
+                _pool.Add(item);
             }
         }
 
         protected bool TryGetItem(out GameObject item)
         {
-            item = _poolCoin.FirstOrDefault(i => i.activeSelf == false);
+            item = _pool.FirstOrDefault(i => i.activeSelf == false);
             return item != null;
         }
 

@@ -35,7 +35,7 @@ namespace DefaultNamespace.UI
 
         protected override void OnClickRestarButton()
         {
-            GameManager.Instance.StartGame();
+            GameManager.Instance.RestartLevel();
         }
     }
 }

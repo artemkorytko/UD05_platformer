@@ -242,7 +242,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levels:
-  - {fileID: 6854177106276858267, guid: eb81ec855fb988041995caf870c4ef2c, type: 3}
+  - m_AssetGUID: eb81ec855fb988041995caf870c4ef2c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: bad1a745a8279fe4097d57f3520960ba
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 7d5d7f84e384c6945bd34bd915605b99
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 0a43e363f49142f478baeaa2ccf5c3c4
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 0f019aa9dd564e141938f808386cefe1
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  playerPrefab: {fileID: 5056862035082753936, guid: 3e1fee553cff0f640beab2be432c17b7, type: 3}
 --- !u!114 &249502349
 MonoBehaviour:
   m_ObjectHideFlags: 0

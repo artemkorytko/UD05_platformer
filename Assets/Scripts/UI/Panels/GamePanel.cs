@@ -26,7 +26,6 @@ namespace DefaultNamespace.UI
                 Destroy(gameObject);
                 return;
             }
-
             _healthBar = GetComponentInChildren<HealthBar>();
         }
 
@@ -39,13 +38,13 @@ namespace DefaultNamespace.UI
               _listHeards.Add(heard);
             }
         }
-
+        
         private void OnDisable()
         {
             foreach (var heard in _listHeards)
                 heard?.SetActive(false);
         }
-
+        
         public void RemoveHeard()
         {
             var heard =_listHeards.FirstOrDefault(item => item.activeSelf);

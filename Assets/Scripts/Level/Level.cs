@@ -13,7 +13,7 @@ namespace DefaultNamespace
         private SpawnPointPlayer spawnPointPlayer;
         private SpawnPointEnemy[] _spawnPointsEnemy;
         private SpawnPointCoin[] _spawnPointsCoin;
-
+        
         private void Awake()
         {
             spawnPointPlayer = GetComponentInChildren<SpawnPointPlayer>();
@@ -23,15 +23,15 @@ namespace DefaultNamespace
         
         public void StartLevel()
         {
-            GeneratePlayer();
             GenerateEnemy();
             GenerateCoins();
         }
         
 
-        private void GeneratePlayer()
+        public void SetPlayer(Player player)
         {
-            Instantiate(config.PlayerPrefab, spawnPointPlayer.transform);
+            player.gameObject.SetActive(true);
+            player.transform.position = spawnPointPlayer.transform.position;
         }
 
         private void GenerateEnemy()

@@ -49,12 +49,16 @@ namespace DefaultNamespace
         {
             OnCoinValueChanged?.Invoke(_gameData.Coins);
             _levelManager.CreateLevel(_gameData.Level);
+            
             UIController.Instance.SetPanels(Panel.Game);
         }
+        
 
         public void RestartLevel()
         {
             OnRestartLevel?.Invoke();
+            _levelManager.CreateLevel(_gameData.Level);
+            
             UIController.Instance.SetPanels(Panel.Game);
         }
 
@@ -66,21 +70,25 @@ namespace DefaultNamespace
 
         public void OnFinish()
         {
+            _gameData.Level++;
             OnFinishEvent?.Invoke();
+            
             UIController.Instance.SetPanels(Panel.Win);
         }
 
         public void OnPlayerDeath()
         {
-            UIController.Instance.SetPanels(Panel.Fail);
             OnFailEvent?.Invoke();
+            
+            UIController.Instance.SetPanels(Panel.Fail);
         }
 
-        public void OnResurrectionPlayer()
+        public void OnResurrectionPlayer() // воскрешение за бабки
         {
             _gameData.Coins -= 10;
             OnCoinValueChanged?.Invoke(_gameData.Coins);
             OnRestartLevel?.Invoke();
+            
             UIController.Instance.SetPanels(Panel.Game);
         }
 

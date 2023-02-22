@@ -11,24 +11,29 @@ namespace DefaultNamespace
     public class Player : MonoBehaviour
     {
         [SerializeField] private PlayerConfig config;
-        [SerializeField] private ContactFilter2D filter;
-        
-        private RaycastHit2D[] _results = new RaycastHit2D[1];
+        [SerializeField] private LayerMask layerMask;
 
         private Rigidbody2D _rigidbody;
         private PlayerAnimatorController _animator;
         
         private bool _isActive = true;
-        private bool _isCanJump = true;
+        private bool _isCanJump;
+        private bool _isCanMove;
 
         private float _maxVelocityMagnitude;
         private int _currentHealth;
-        
-        
+
+        private float _distanceRayToDown;
+        private float _distanceRayToForward;
+
+
         private void Awake()
         {
             _animator = GetComponent<PlayerAnimatorController>();
             _rigidbody = GetComponent<Rigidbody2D>();
+            
+            _distanceRayToDown = transform.localScale.y;
+            _distanceRayToForward = transform.localScale.x * 0.8f;
         }
 
         private void Start()
@@ -53,9 +58,7 @@ namespace DefaultNamespace
             
             if(other.gameObject.TryGetComponent(out RipEnemy enemy))
                 enemy.Rip();
-
-            if (other.gameObject.GetComponent<Platform>() || other.gameObject.GetComponent<RipEnemy>())
-                _isCanJump = true;
+            
             
             if (other.gameObject.GetComponent<DangerousObject>() || other.gameObject.GetComponent<Spike>()) 
                 TakeDamage();
@@ -78,16 +81,26 @@ namespace DefaultNamespace
             if(!_isActive)
                 return;
             
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, -transform.up, 1f, 6);
-            Debug.DrawRay(transform.position, -transform.up * 1f, Color.red);
-            if(hit.collider != null)
-                Debug.Log(hit.collider.name);
-            
-
+            AllowToMovement();
             Movement();
             UpdateSide();
         }
-        
+
+        private void AllowToMovement()
+        {
+            RaycastHit2D hitDown = Physics2D.Raycast(transform.position, -transform.up, _distanceRayToDown, layerMask);
+            Debug.DrawRay(transform.position, -transform.up, Color.red);
+            if (hitDown.collider != null)
+                _isCanJump = true;
+            
+            RaycastHit2D hitForward = Physics2D.Raycast(transform.position, new Vector2(transform.localScale.x, 0), _distanceRayToForward, layerMask);
+            Debug.DrawRay(transform.position, new Vector2(transform.localScale.x, 0), Color.red);
+            if (hitForward.collider != null)
+                _isCanMove = false;
+            else
+                _isCanMove = true;
+        }
+
         private void OnDestroy()
         {
             GameManager.Instance.OnRestartLevel -= OnRestart;
@@ -107,10 +120,8 @@ namespace DefaultNamespace
                 localScale.x *= -1;
                 transform.localScale = localScale;
             }
-
         }
         
-
         private void Movement()
         {
             HorizontalMovement();
@@ -127,7 +138,6 @@ namespace DefaultNamespace
 
         private void VerticalMovement()
         {
-            
             if (_isCanJump && SimpleInput.GetAxis("Vertical") > 0)
             {
                 _isCanJump = false;
@@ -138,11 +148,15 @@ namespace DefaultNamespace
 
         private void HorizontalMovement()
         {
-           var axis =  SimpleInput.GetAxis("Horizontal");
-           var velocity = _rigidbody.velocity;
-           velocity.x = config.HorizontalSpeed * axis;
-           _rigidbody.velocity = velocity;
-           _animator.SetSpeed(velocity.x == 0 ? 0 : (int)Mathf.Sign(velocity.x));
+            var axis =  SimpleInput.GetAxis("Horizontal");
+            var velocity = _rigidbody.velocity;
+            velocity.x = config.HorizontalSpeed * axis;
+            
+            if (_isCanMove)
+                _rigidbody.velocity = velocity;
+            
+            _animator.SetSpeed(velocity.x == 0 ? 0 : (int)Mathf.Sign(velocity.x));
+            
         }
         
         private void TakeDamage()
@@ -160,11 +174,11 @@ namespace DefaultNamespace
         }
         private void OnRestart()
         {
-            _isActive = true;
-            gameObject.SetActive(true);
-            
             _currentHealth = config.Health;
             GamePanel.Instance.AddHeard(_currentHealth);
+            
+            _isActive = true;
+            gameObject.SetActive(true);
         }
         
     }
