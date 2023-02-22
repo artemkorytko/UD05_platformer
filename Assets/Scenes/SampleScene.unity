@@ -639,6 +639,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5664605716540442705, guid: 82a64b54bdb156c45acf8e4c2e446fd8, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 353.9716
+      objectReference: {fileID: 0}
+    - target: {fileID: 5664605716540442705, guid: 82a64b54bdb156c45acf8e4c2e446fd8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 205.08698
+      objectReference: {fileID: 0}
     - target: {fileID: 6701052616367575218, guid: 82a64b54bdb156c45acf8e4c2e446fd8, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1

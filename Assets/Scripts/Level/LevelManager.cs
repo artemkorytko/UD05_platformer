@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.AddressableAssets;
+
 
 namespace DefaultNamespace
 {
@@ -8,7 +10,7 @@ namespace DefaultNamespace
 
         private Level _currentLevel;
 
-        public void CreateLevel(uint index)
+        public async void CreateLevel(uint index)
         {
             if (_currentLevel)
             {
@@ -16,8 +18,8 @@ namespace DefaultNamespace
             }
 
             index %= (uint) levels.Length;
-            
             _currentLevel = Instantiate(levels[index], transform);
+           //_currentLevel = await Addressables.InstantiateAsync(levels[index], transform);
             _currentLevel.StartLevel();
         }
         
