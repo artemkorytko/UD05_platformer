@@ -11,9 +11,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Ground
+  - Player
+  - Enemies
   - 
   - 
   - 
@@ -38,6 +38,30 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Sky
+    uniqueID: 3575381501
+    locked: 0
+  - name: Clouds
+    uniqueID: 1419053365
+    locked: 0
+  - name: Mountain
+    uniqueID: 107161837
+    locked: 0
+  - name: ForestFar
+    uniqueID: 2213135447
+    locked: 0
+  - name: ForestNear
+    uniqueID: 3361809813
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Enemy
+    uniqueID: 2137889973
+    locked: 0
+  - name: Player
+    uniqueID: 2819221009
+    locked: 0
+  - name: CloseObjects
+    uniqueID: 1478975861
     locked: 0
