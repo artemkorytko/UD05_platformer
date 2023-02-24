@@ -1,13 +1,12 @@
 ﻿using System;
+using DefaultNamespace.Patterns.Singleton;
 using DefaultNamespace.UI;
 using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : BaseSingleton<GameManager>
     {
-        public static GameManager Instance { get; private set; }
-        
         private LevelManager _levelManager;
         private ISaveSystem _saveSystem;
         private GameData _gameData;
@@ -15,21 +14,9 @@ namespace DefaultNamespace
         public uint CountCoins => _gameData.Coins;
         public event Action OnRestartLevel; 
         public event Action<uint> OnCoinValueChanged;
-        public event Action OnFinishEvent;
-        public event Action OnFailEvent;
 
         private void Awake()
         {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-                return;
-            }
-
             _saveSystem = new SaveSystem();
             _levelManager = GetComponent<LevelManager>();
             _gameData = _saveSystem.LoadData();
@@ -57,7 +44,7 @@ namespace DefaultNamespace
         public void RestartLevel()
         {
             OnRestartLevel?.Invoke();
-            _levelManager.CreateLevel(_gameData.Level);
+            _levelManager.CreateLevel(_gameData.Level); // тут просто нужно вкл ?
             
             UIController.Instance.SetPanels(Panel.Game);
         }
@@ -71,21 +58,18 @@ namespace DefaultNamespace
         public void OnFinish()
         {
             _gameData.Level++;
-            OnFinishEvent?.Invoke();
-            
             UIController.Instance.SetPanels(Panel.Win);
         }
 
         public void OnPlayerDeath()
         {
-            OnFailEvent?.Invoke();
-            
             UIController.Instance.SetPanels(Panel.Fail);
         }
 
         public void OnResurrectionPlayer() // воскрешение за бабки
         {
             _gameData.Coins -= 10;
+            
             OnCoinValueChanged?.Invoke(_gameData.Coins);
             OnRestartLevel?.Invoke();
             

@@ -1,35 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DefaultNamespace.Patterns.Singleton;
 using UnityEngine;
 
 namespace DefaultNamespace.UI
 {
-    public class GamePanel : MonoBehaviour
+    public class GamePanel : BaseSingleton<GamePanel>
     {
         [SerializeField] private Heart prefabHeart;
+        [SerializeField] private HealthBar _healthBar;
         
         private List<GameObject> _listHeards = new List<GameObject>(10);
-
-        public static GamePanel Instance { get; private set; }
-
-        private HealthBar _healthBar;
-
+        
         private void Awake()
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-                return;
-            }
-            _healthBar = GetComponentInChildren<HealthBar>();
-        }
-
-        private void Start()
         {
             for (int i = 0; i < 10; i++)
             {
@@ -38,6 +22,7 @@ namespace DefaultNamespace.UI
               _listHeards.Add(heard);
             }
         }
+        
         
         private void OnDisable()
         {

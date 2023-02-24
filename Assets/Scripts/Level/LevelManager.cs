@@ -11,7 +11,7 @@ namespace DefaultNamespace
     {
         [SerializeField] private AssetReference[] levels;
         [SerializeField] private Player playerPrefab;
-
+        
         private Player _player;
         private Level _currentLevel;
 

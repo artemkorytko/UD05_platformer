@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public class StateMachine : MonoBehaviour
+    public class StateMachine : MonoBehaviour // мммммм-м х#ет@
     {
 
         private State _firstState;

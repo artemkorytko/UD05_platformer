@@ -94,7 +94,7 @@ namespace DefaultNamespace
                 _isCanJump = true;
             
             RaycastHit2D hitForward = Physics2D.Raycast(transform.position, new Vector2(transform.localScale.x, 0), _distanceRayToForward, layerMask);
-            Debug.DrawRay(transform.position, new Vector2(transform.localScale.x, 0), Color.red);
+            Debug.DrawRay(transform.position, new Vector2(transform.localScale.x, 0), Color.red); // т.к мы изменяем Х то луч тож будет менять направление.норм.. 
             if (hitForward.collider != null)
                 _isCanMove = false;
             else

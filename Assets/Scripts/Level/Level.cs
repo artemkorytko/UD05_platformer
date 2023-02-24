@@ -6,20 +6,27 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public class Level : Pool
+    public class Level : MonoBehaviour
     {
         [SerializeField] private LevelConfig config;
 
         private SpawnPointPlayer spawnPointPlayer;
         private SpawnPointEnemy[] _spawnPointsEnemy;
         private SpawnPointCoin[] _spawnPointsCoin;
+
+        private Pool<Coin> _poolCoin;
+        private Pool<Enemy> _poolEnemy;
         
         private void Awake()
         {
             spawnPointPlayer = GetComponentInChildren<SpawnPointPlayer>();
             _spawnPointsEnemy = GetComponentsInChildren<SpawnPointEnemy>();
             _spawnPointsCoin = GetComponentsInChildren<SpawnPointCoin>();
+            
+            _poolCoin = new Pool<Coin>(config.CoinPrefab, _spawnPointsCoin.Length);
+            _poolEnemy = new Pool<Enemy>(config.EnemyPrefab, _spawnPointsEnemy.Length);
         }
+
         
         public void StartLevel()
         {
@@ -38,19 +45,20 @@ namespace DefaultNamespace
         {
             for (int i = 0; i < _spawnPointsEnemy.Length; i++)
             {
-                var enemy = Instantiate(config.EnemyPrefab, _spawnPointsEnemy[i].transform);
-                enemy.SetPoints(_spawnPointsEnemy[i].transform, _spawnPointsEnemy[i].GetComponentInChildren<PatrolPoint>().transform);
+                if (_poolEnemy.TryGetObject(out GameObject enemy))
+                {
+                    _poolEnemy.SetObjectInPosition(enemy, _spawnPointsEnemy[i].transform.position);
+                    enemy.GetComponent<Enemy>().SetPoints(_spawnPointsEnemy[i].transform, _spawnPointsEnemy[i].GetComponentInChildren<PatrolPoint>().transform);
+                }
             }
         }
 
         private void GenerateCoins()
         {
-            GeneratePool(config.CoinPrefab.gameObject, _spawnPointsCoin.Length);
-            
             for (int i = 0; i < _spawnPointsCoin.Length; i++)
             {
-                if(TryGetItem(out GameObject coin))
-                    SetItem(coin, _spawnPointsCoin[i].transform.position);
+                if (_poolCoin.TryGetObject(out GameObject coin))
+                    _poolCoin.SetObjectInPosition(coin, _spawnPointsCoin[i].transform.position);
             }
         }
     }

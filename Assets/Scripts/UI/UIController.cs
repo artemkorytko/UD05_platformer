@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DefaultNamespace.Patterns.Singleton;
+using UnityEngine;
 
 namespace DefaultNamespace.UI
 {
@@ -11,26 +12,15 @@ namespace DefaultNamespace.UI
         Win
     }
 
-    public class UIController : MonoBehaviour
+    public class UIController : BaseSingleton<UIController>
     {
-        public static UIController Instance { get; private set; }
-        
-         private GamePanel _gamePanel;
+        private GamePanel _gamePanel;
          private FailPanel _failPanel;
          private WinPanel _winPanel;
          private MenuPanel _menuPanel;
 
         private void Awake()
         {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-                return;
-            }
             _gamePanel = GetComponentInChildren<GamePanel>(true);
             _failPanel = GetComponentInChildren<FailPanel>(true);
             _winPanel = GetComponentInChildren<WinPanel>(true);
