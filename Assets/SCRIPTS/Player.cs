@@ -15,7 +15,7 @@ namespace DefaultNamespace
         // компонент rigibody, ибо плеер физический и взаимодейсствует с физикой мира
         private Rigidbody2D _rigidbody;
         private bool _isActive = true;
-        private bool _isCanJump; // пока не приземлится шоб снова не начинал прыгать
+        [SerializeField] private bool _isCanJump; // пока не приземлится шоб снова не начинал прыгать
         private bool _isDirty = false; 
 
         private float _maxVelocityMagnitude;
@@ -87,8 +87,11 @@ namespace DefaultNamespace
 
         private void VerticalMovement() // разово прыжок
         {
+            // если убрать /*_isCanJump &&*/ то заяц иногда внезапно застревает, не только в воде
             if (_isCanJump && SimpleInput.GetAxis("Vertical") > 0) // можем ли прыгать и нажали кнопку
             {
+                // Тайное послание от бывшей училки английского:
+                // грамматически может быть только "_canJump", или "_ableToJump" :))  а isCan нееее ))
                 _isCanJump = false; // второй раз не прыгаем
                 _rigidbody.AddForce(jumpImpulse * Vector2.up, ForceMode2D.Impulse); // пинаем себя вверх импульсом !!!
 
@@ -146,7 +149,8 @@ namespace DefaultNamespace
         {
             if (!_isActive)
                 return; // неактивны - вон из функции
-
+            _isCanJump = true;
+            
             if (col.gameObject.GetComponentInChildren<Platform>())
             {
                 // если с платформой - то можно прыгать
@@ -157,6 +161,8 @@ namespace DefaultNamespace
             {
                 Stealing();
             }
+            
+            
         }
 
         //------ для сбора монеток -----------------
@@ -218,7 +224,10 @@ namespace DefaultNamespace
             //--------- столкновение с флажком / домиком 
             if (col.GetComponent<Finish>())
             {
-                GameManager.Instance.OnFinish();
+                if (!_isDirty)
+                {GameManager.Instance.OnFinish();}
+                else
+                Debug.Log(" Грязному домой нельзя, помойся!");    
             }
         }
 
@@ -229,6 +238,7 @@ namespace DefaultNamespace
             if (_isDirty == false)
             {
                 _isDirty = true;
+                _animatorcontroller.DirtyAnims();
                 Debug.Log(" заяц грязный");
                 // НАРИСОВАТЬ И ЗАМЕНИТЬ
             }
@@ -238,6 +248,7 @@ namespace DefaultNamespace
         {
             if (_isDirty == true)
             {
+                _animatorcontroller.CleanAnims();
                 Debug.Log(" заяц помылся");
                 _isDirty = false;
             }

@@ -9,6 +9,7 @@ namespace DefaultNamespace
     {
         private const string SPEED = "Move";
         private const string JUMP = "JUMP"; //слова-кондишены копируем из аниматора
+        private const string DIRTY = "dirty";
 
         // правой кнопкой (?) желтая лампочка
         private static readonly int Speed = Animator.StringToHash(SPEED);
@@ -34,6 +35,17 @@ namespace DefaultNamespace
         {
             // Set обращается к AnyState у аниматора и тот уже по логике выбирает куда транзитить
             _animator.SetTrigger(JUMP);
+        }
+
+
+        public void DirtyAnims()
+        {
+            _animator.SetBool(DIRTY, true);
+        }
+
+        public void CleanAnims()
+        {
+            _animator.SetBool(DIRTY, false);
         }
     }
 }

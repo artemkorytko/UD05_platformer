@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
+//---- стырено где-то на гитхабе ---
+
 namespace TRIGGERSand_CO
 {
     public class GemLight : MonoBehaviour
@@ -30,7 +32,7 @@ namespace TRIGGERSand_CO
             _findlight = GetComponent<Light2D>(); // Reference to the game object's Light component 
             red = 255;
             _findlight.color = new Color32(red, green, blue, alpha); // Default color of Light set to RGB(255, 0, 0) 
-            Debug.Log("Set main light color's R value to 255.");
+            // Debug.Log("Set main light color's R value to 255.");
         }
 
         // Update is called once per frame
@@ -78,8 +80,8 @@ namespace TRIGGERSand_CO
             _findlight.color =
                 new Color32(red, green, blue,
                     alpha); // Update the RGB value of the color of Light with the RGB value calculated from the above if-else statements
-            Debug.Log("R value: " + red + " | G value: " + green + " | B value: " +
-                      blue); // Log the new RGB value in the console
+            // Debug.Log("R value: " + red + " | G value: " + green + " | B value: " +blue);
+            // Log the new RGB value in the console
         }
     }
 }

@@ -27,7 +27,9 @@ namespace DefaultNamespace
             {
                 Destroy(_currentLevel.gameObject); 
             }
-
+            
+            //------- РАЗКОММЕНТИТЬ ДЛЯ ТЕСТА УРОВНЯ ---------------------
+            // index = 5;
             
             // высчитываем индекс - от 0 до сколько в массиве
             index %= (uint)levelsArr.Length; // тоже не может быть отрицательным

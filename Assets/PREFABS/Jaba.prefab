@@ -184,7 +184,7 @@ MonoBehaviour:
   coin: {fileID: 3394934669481812213, guid: 2eff3b51e850447f6aecccca8b5e70f6, type: 3}
   carrot: {fileID: 738557891344064487, guid: c42e33c3570b34f4b98339e64f226e2c, type: 3}
   berry: {fileID: 8072506672997441908, guid: 010b145cad6314563ae6b0dbd64c27fc, type: 3}
-  goldenPoo: {fileID: 3730449592655742379, guid: 0225d495c3e5d4020a55794d4b2c0354, type: 3}
+  goldenPoo: {fileID: 4606255069269568213, guid: 758b1c281a2a147dd938bdd8ce4d6d77, type: 3}
   gem: {fileID: 7850706171702788361, guid: db43d06cba80e4cf2aac339f6cd5b3f5, type: 3}
   _StealPoint: {fileID: 8413900535005177795}
 --- !u!58 &5574668174676664759
