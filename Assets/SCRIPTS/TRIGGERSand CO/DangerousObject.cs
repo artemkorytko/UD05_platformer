@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public class Finish : InteractableThis
+    public class DangerousObject : InteractableThis
     {
         
     }

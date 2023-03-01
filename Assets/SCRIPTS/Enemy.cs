@@ -110,6 +110,8 @@ public class Enemy : MonoBehaviour
     //--------------------------------------------------------------------------------------------------
     private void StealOneThing()
     {
+        
+
         _EnemyGameData = GameManager.Instance._gameData;
 
         //---- собирает словарь вещей, которые заяц уже насобирал и рандомно тырит одну
@@ -168,6 +170,7 @@ public class Enemy : MonoBehaviour
             whatToSteal.transform.Translate(new Vector3(0,heightToPutThis, 0));
 
             whatToSteal.GetComponentInChildren<Collider2D>().enabled = false;
+            // whatToSteal.
             
             stealCount++;
         }

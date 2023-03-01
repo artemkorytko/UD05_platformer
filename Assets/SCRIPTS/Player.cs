@@ -56,8 +56,21 @@ namespace DefaultNamespace
 
             Movement(); // сначала двигаемся
             UpdateSide(); // в зависимости от куда попали - разворачиваем персонажа
+            CheckGround();
         }
 
+        private void CheckGround()
+        {
+            if (!_isCanJump)
+            {
+                //var ray = new Ray(_rigidbody.position, Vector2.down);
+                // бросаем луч вниз на высоту себя
+                if (Physics2D.Raycast(_rigidbody.position, Vector2.down, 1.5f))
+                {
+                    _isCanJump = false;
+                }
+            }
+        }
 
 
         private void Movement()
@@ -90,8 +103,7 @@ namespace DefaultNamespace
             // если убрать /*_isCanJump &&*/ то заяц иногда внезапно застревает, не только в воде
             if (_isCanJump && SimpleInput.GetAxis("Vertical") > 0) // можем ли прыгать и нажали кнопку
             {
-                // Тайное послание от бывшей училки английского:
-                // грамматически может быть только "_canJump", или "_ableToJump" :))  а isCan нееее ))
+                
                 _isCanJump = false; // второй раз не прыгаем
                 _rigidbody.AddForce(jumpImpulse * Vector2.up, ForceMode2D.Impulse); // пинаем себя вверх импульсом !!!
 
@@ -151,11 +163,12 @@ namespace DefaultNamespace
                 return; // неактивны - вон из функции
             _isCanJump = true;
             
-            if (col.gameObject.GetComponentInChildren<Platform>())
-            {
-                // если с платформой - то можно прыгать
-                _isCanJump = true;
-            }
+            // поменяли проверку коллизии с платформой на луч из попы вниз
+            // if (col.gameObject.GetComponentInChildren<Platform>())
+            // {
+            //     // если с платформой - то можно прыгать
+            //     _isCanJump = true;
+            // }
 
             if (col.gameObject.GetComponent<DangerousObject>())
             {
@@ -171,67 +184,58 @@ namespace DefaultNamespace
             if (!_isActive)
                 return;
 
-            //------ далее пять похожих проверок - как приавильно написать case?
-            if (col.GetComponent<Coin>())
+            if (col.TryGetComponent(out InteractableThis gotThing))
             {
-                col.gameObject.SetActive(false);
-                GameManager.Instance.OnCoinCollect();
-            }
+                //col.gameObject.SetActive(false);
 
-
-            if (col.GetComponent<Carrot>())
-            {
-                col.gameObject.SetActive(false);
-                GameManager.Instance.OnCarrotCollect();
-            }
-            
-            if (col.GetComponent<Berry>())
-            {
-                col.gameObject.SetActive(false);
-                GameManager.Instance.OnBerryCollect();
-            }
-
-            if (col.GetComponent<Gem>())
-            {
-                col.gameObject.SetActive(false);
-                GameManager.Instance.OnGemCollect();
-            }
-
-            if (col.GetComponent<GoldenPoo>())
-            {
-                col.gameObject.SetActive(false);
-                GameManager.Instance.OnGoldenPooCollect();
-            }
-
-            //--------- эта касается только внешнего вида зайца, оставлю в рамках данного файла
-            if (col.GetComponent<BrownPoo>())
-            {
-                col.gameObject.SetActive(false);
-                GetDirty();
-            }
-
-            if (col.GetComponent<Water>())
-            {
-                GetClean();
-            }
-            
-            //--------- враг ---------------------------
-            if (col.GetComponent<DangerousObject>())
-            {
-                Stealing();
-            }
-            
-            //--------- столкновение с флажком / домиком 
-            if (col.GetComponent<Finish>())
-            {
-                if (!_isDirty)
-                {GameManager.Instance.OnFinish();}
-                else
-                Debug.Log(" Грязному домой нельзя, помойся!");    
+                switch (gotThing)
+                {
+                    //-------- просто собиралки:
+                  case Coin:  HideCollectedObject(col); GameManager.Instance.OnCoinCollect();
+                        break;
+                  case Carrot:  HideCollectedObject(col); GameManager.Instance.OnCarrotCollect();
+                      break;
+                  case Berry:  HideCollectedObject(col); GameManager.Instance.OnBerryCollect();
+                      break;
+                  case Gem:  HideCollectedObject(col); GameManager.Instance.OnGemCollect();
+                      break;
+                  case GoldenPoo:  HideCollectedObject(col); GameManager.Instance.OnGoldenPooCollect();
+                      break; 
+                  
+                    //-------- пачкается об какаху/моется
+                  case BrownPoo: HideCollectedObject(col); GetDirty();
+                      break;
+                  case Water: GetClean();
+                       break;
+                                                                                             
+                    //---------- с жабой - та начинает красть вещи
+                  case DangerousObject: Stealing();
+                       break;
+                                                                                             
+                    //----------- добежал до дома и чистый = финиш
+                  case Finish: doOnFinish();
+                       break;
+                }
             }
         }
 
+        //------- прячет любой собранный объект
+        private void HideCollectedObject(Collider2D col)
+        {
+            col.gameObject.SetActive(false);
+        }
+        
+        //------- столкновение с домом - проверяет чист ли заяц?
+        private void doOnFinish()
+        {
+            if (!_isDirty)
+            {
+                GameManager.Instance.OnFinish();
+            }
+            else Debug.Log(" Грязному домой нельзя, помойся!");
+        }
 
+        
         //------------ после столкновения с какахой пачакается, водой - моется ---------
         private void GetDirty()
         {
@@ -254,7 +258,6 @@ namespace DefaultNamespace
             }
         }
 
-        
         
         private void Stealing()
         {
